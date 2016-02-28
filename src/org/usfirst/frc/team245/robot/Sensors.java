@@ -5,22 +5,28 @@ import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 
+/**
+ * All Robot sensors
+ *
+ */
 public class Sensors {
-	// Digital
-	private static Encoder driveEncoder;
 	private static Encoder winchEncoder;
 	private static DigitalInput intakeArmPhotoEye;
 	private static DigitalInput boulderCanLaunchPhotoEye;
 	private static DigitalInput catapultLimitSwitch;
+	private static DigitalInput armMaxLimitSwitch;
+	private static DigitalInput armMinLimitSwitch;
 	// Analog
 	private static AnalogPotentiometer armPot;
 	private static AnalogGyro robotGyro;
 	private static double stringPotArmDist;
 	private static double stringPotChassisDist;
 
+	/**
+	 * Initializes all sensors
+	 */
 	public static void init() {
 		// Digital
-		driveEncoder = new Encoder(0, 0);
 		winchEncoder = new Encoder(0, 0);
 		intakeArmPhotoEye = new DigitalInput(0);
 		boulderCanLaunchPhotoEye = new DigitalInput(0);
@@ -32,10 +38,17 @@ public class Sensors {
 	}
 
 	/**
-	 * @return the driveEncoder
+	 * @return the armMaxLimitSwitch
 	 */
-	public static Encoder getDriveEncoder() {
-		return driveEncoder;
+	public static DigitalInput getArmMaxLimitSwitch() {
+		return armMaxLimitSwitch;
+	}
+
+	/**
+	 * @return the armMinLimitSwitch
+	 */
+	public static DigitalInput getArmMinLimitSwitch() {
+		return armMinLimitSwitch;
 	}
 
 	/**
@@ -80,13 +93,16 @@ public class Sensors {
 		return robotGyro;
 	}
 	
+	/**
+	 * 
+	 * @return the arm angle using the string pot
+	 */
 	public static double getStringPotArmAngle() {
-		//TODO: calibrate slope cm per degree
+		// TODO: calibrate slope cm per degree
 		double slope = 0;
 		double displace = armPot.get() * slope;
 		return Math.acos((Math.pow(stringPotArmDist, 2) + Math.pow(stringPotChassisDist, 2) - Math.pow(displace, 2))
 				/ (2 * stringPotArmDist * stringPotChassisDist));
 	}
-
 
 }
